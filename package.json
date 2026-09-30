@@ -1,0 +1,46 @@
+{
+  "name": "mcp-tool-schema-lint",
+  "version": "0.1.0",
+  "description": "Lint MCP server tool definitions against the JSON Schema limits of Claude, OpenAI and Gemini before they fail at runtime.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "mcp-tool-schema-lint": "./bin/cli.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "json-schema",
+    "lint",
+    "llm",
+    "tools",
+    "claude",
+    "openai",
+    "gemini"
+  ],
+  "author": "Vijay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vjymisal0/mcp-tool-schema-lint.git"
+  },
+  "homepage": "https://github.com/vjymisal0/mcp-tool-schema-lint#readme",
+  "bugs": {
+    "url": "https://github.com/vjymisal0/mcp-tool-schema-lint/issues"
+  }
+}
