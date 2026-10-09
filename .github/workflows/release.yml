@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Verify SemVer tag
+        shell: bash
+        run: |
+          package_version=$(node -p "require('./package.json').version")
+          tag_version="${GITHUB_REF_NAME#v}"
+          test "$package_version" = "$tag_version" || {
+            echo "Tag v$tag_version does not match package.json version $package_version"
+            exit 1
+          }
+      - name: Install dependencies
+        run: if [ -f package-lock.json ]; then npm ci; else npm install --no-package-lock; fi
+      - run: npm test
+      - name: Security audit
+        run: npm audit --omit=dev --audit-level=high
+      # Trusted publishing: npm exchanges the GitHub OIDC token, no NPM_TOKEN needed.
+      - name: Publish with provenance
+        run: npm publish --provenance --access public
